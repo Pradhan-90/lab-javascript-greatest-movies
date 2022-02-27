@@ -32,21 +32,61 @@ function scoresAverage(movies) {
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
 function dramaMoviesScore(movies) {
-  const moviesDrama = movies.filter((movie)=> {
-  return (movie.genre == 'Drama')})}
+  function getScore(movie) {
+    return (movie.genre.includes('Drama') && 'score' in movie);
+  }
+  let dramaMovies = movies.filter(getScore);
+  if (dramaMovies.length === 0) {
+    return 0;
+  }
+  let score = 0 ;
+  for (let i=0; i < dramaMovies.length; i++){
+    score += dramaMovies[i].score;
+  }
+  return Math.round((score / dramaMovies.length)*100) /100
+}
+
 //moviesDrama.reduce(function (movies.score))}
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
-function orderByYear(movies) {movies.sort(function (a, b)
-  {return b.year - a.year})
+function compare( a, b ) {
+  if ( a.title < b.title ){
+    return -1;
+  }
+  if ( a.title > b.title ){
+    return 1;
+  }
+  return 0;
 }
 
+function orderByYear(movies) {
+  movies.sort( compare );
+  movies.sort(
+    function (a, b) {
+      return a.year - b.year
+    }
+  )
+  return movies;   
+}
+
+
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically() {movies.sort(function(a, b){
-  if(a.title < b.title) {return -1;}
-  if(a.title > b.title) {return 1;}
-  return 0;
-})}
+function orderAlphabetically(movies) {
+  movies.sort( compare );
+  let newList = [];
+  for(let i=0; i<movies.length; i++){
+    newList.push(movies[i].title);
+  }
+  if (newList.length < 20) {
+    return newList;
+  } else {
+    let newList2 = [];
+    for(let i=0; i < 20; i++){
+      newList2.push(newList[i]);
+    }
+    return newList2;
+  }
+}
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
 function turnHoursToMinutes() {}
